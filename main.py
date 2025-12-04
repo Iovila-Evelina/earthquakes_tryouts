@@ -1,4 +1,4 @@
-from earthquakes import get_earthquake
+from earthquakes_repo_tryout.earthquakes import get_earthquake
 
 days = 2
 mag, place = get_earthquake(days)
