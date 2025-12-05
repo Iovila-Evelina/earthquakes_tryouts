@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module earthquake_app.earthquakes</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="earthquake_app.html" class="white">earthquake_app</a>.earthquakes</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Ceveli%5Cpycharmprojects%5Cearthquakes_tryouts%5Cearthquake_app%5Cearthquakes.py">c:\users\eveli\pycharmprojects\earthquakes_tryouts\earthquake_app\earthquakes.py</a></td></tr></table>
+    <p><span class="code">Earthquakes&nbsp;Module.<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;provides&nbsp;functions&nbsp;to&nbsp;connect&nbsp;to&nbsp;the&nbsp;USGS&nbsp;API&nbsp;and<br>
+retrieve&nbsp;earthquake&nbsp;data&nbsp;based&nbsp;on&nbsp;specific&nbsp;magnitude&nbsp;criteria.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="datetime.html">datetime</a><br>
+</td><td class="multicolumn"><a href="json.html">json</a><br>
+</td><td class="multicolumn"><a href="requests.html">requests</a><br>
+</td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-get_earthquake"><strong>get_earthquake</strong></a>(days_past)</dt><dd><span class="code">Retrieve&nbsp;the&nbsp;strongest&nbsp;earthquake&nbsp;in&nbsp;the&nbsp;last&nbsp;N&nbsp;days.<br>
+&nbsp;<br>
+Keyword&nbsp;arguments:<br>
+days_past&nbsp;--&nbsp;the&nbsp;number&nbsp;of&nbsp;days&nbsp;to&nbsp;look&nbsp;back&nbsp;(int)<br>
+&nbsp;<br>
+Returns:<br>
+tuple&nbsp;--&nbsp;a&nbsp;tuple&nbsp;containing&nbsp;(magnitude,&nbsp;place)&nbsp;of&nbsp;the&nbsp;strongest&nbsp;event</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>USGS_URL</strong> = 'https://earthquake.usgs.gov/fdsnws/event/1/query?starttime={}&amp;format=geojson&amp;limit=20000'</td></tr></table>
+</body></html>
