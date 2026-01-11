@@ -1,42 +1,86 @@
+"""
+Earthquake Search Tool (INGV) - Main Module.
+
+This script orchestrates the fetching of earthquake data, database updates,
+and querying based on user input. It also supports an optional add-on
+to find the closest municipalities to each earthquake.
+"""
+
 import argparse
+from earthquake_app.db_handler import create_earthquake_db, query_db
+from earthquake_app.nearby_municipalities import (
+    load_municipalities,
+    get_closest_municipalities
+)
+
+
+def print_earthquakes(earthquakes, show_closest, municipalities_data):
+    """
+    Prints the list of earthquakes to the console.
+    If 'show_closest' is True, it also prints the nearest municipalities.
+    """
+    if not earthquakes:
+        print("No earthquakes found matching the criteria.")
+        return
+
+    for eq in earthquakes:
+        day, time, mag, lat, lon, place = eq
+
+        print("-" * 50)
+        print(f"day: {day}, time: {time}, magnitude: {mag},")
+        print(f"lat: {lat}, lon: {lon}, place: {place}")
+
+        if show_closest and municipalities_data:
+            closest = get_closest_municipalities(
+                lat, lon, municipalities_data
+            )
+            print("\n   >>> Closest Municipalities (Add-on):")
+            for name, dist in closest:
+                print(f"       * {name}: {dist:.2f} km")
+
 
 def main():
-    # 1. Initialize the Parser
-    # This tool will read the command line inputs for us.
-    parser = argparse.ArgumentParser(description="Earthquake search tool")
+    """
+    Main execution function. Handles argument parsing and program flow.
+    """
+    parser = argparse.ArgumentParser(
+        description="Search for the strongest earthquakes in Italy."
+    )
 
-    # 2. Add the arguments as requested in the Manual (Page 3)
-    # The manual says: "optional argument's names start with --"
-    # But also says: "make them mandatory with required=True"
+    parser.add_argument(
+        "--days", type=int, required=True,
+        help="Number of days to search."
+    )
+    parser.add_argument(
+        "--K", type=int, required=True,
+        help="Number of strongest earthquakes to show."
+    )
+    parser.add_argument(
+        "--magnitude", type=float, required=True,
+        help="Minimum magnitude allowed."
+    )
+    parser.add_argument(
+        "--addon", action="store_true",
+        help="Show the closest municipalities."
+    )
 
-    # Argument 1: days (integer) - How many days back to search
-    parser.add_argument('--days',
-                        type=int,
-                        required=True,
-                        help="Number of days to search backwards")
-
-    # Argument 2: K (integer) - The maximum number of earthquakes to show
-    parser.add_argument('--K',
-                        type=int,
-                        required=True,
-                        help="Number of strongest earthquakes to return")
-
-    # Argument 3: magnitude (float) - The minimum magnitude (e.g., 2.5)
-    parser.add_argument('--magnitude',
-                        type=float,
-                        required=True,
-                        help="Minimum magnitude allowed")
-
-    # 3. Parse the arguments
-    # This line checks if the user typed the commands correctly.
-    # If they didn't, the program stops here and shows an error automatically.
     args = parser.parse_args()
 
-    # 4. Print the values to verify it works (Temporary Step)
-    print(f"Searching for the top {args.K} earthquakes...")
-    print(f"Over the last {args.days} days...")
-    print(f"With a magnitude of at least {args.magnitude}.")
+    municipalities_data = []
+    if args.addon:
+        print("Loading municipalities data...")
+        municipalities_data = load_municipalities()
+        if not municipalities_data:
+            print("WARNING: Could not load municipalities. Skipping add-on.")
 
-# This ensures the script runs only when executed directly
-if __name__ == '__main__':
+    print(f"Updating database (Last {args.days} days)...")
+    create_earthquake_db(args.days)
+
+    results = query_db(args.K, args.days, args.magnitude)
+
+    print("\n--- Results ---")
+    print_earthquakes(results, args.addon, municipalities_data)
+
+
+if __name__ == "__main__":
     main()
